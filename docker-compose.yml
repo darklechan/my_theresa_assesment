@@ -1,0 +1,22 @@
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: 'my_theresa_db'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+
+  app:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    image: 'my-theresa'
+    ports:
+      - "8080:80"
+    volumes:
+      - ./:/var/www/html
